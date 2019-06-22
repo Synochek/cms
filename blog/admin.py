@@ -1,3 +1,12 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Post, Tag, Category, Comment
+
+
+admin.site.register(Post)  # Регистрируем данную модель в админ. панели Django
+
+admin.site.register(Tag)
+
+admin.site.register(Category)
+
+admin.site.register(Comment)
