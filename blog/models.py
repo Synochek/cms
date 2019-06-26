@@ -2,12 +2,15 @@ from django.db import models
 
 from django.utils import timezone
 
+from mptt.models import MPTTModel, TreeForeignKey
 
-class Category(models.Model):
+
+class Category(MPTTModel):
     '''Категории статей'''
     name = models.CharField('название', max_length=40)
     slug = models.SlugField('url', max_length=60)
     publish = models.BooleanField('Опубликовать', default=True)
+    parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
 
     def __str__(self):  # Что будет возвращаться при вызове экземпляра класса
         return self.name
@@ -61,8 +64,8 @@ class Post(models.Model):
 
 class Comment(models.Model):
     '''Комментарии под статьей'''
-    post = models.ForeignKey(Post, verbose_name='Пост', on_delete=models.SET_NULL, null=True)
     text = models.TextField('текст комментария', max_length=800)
+    post = models.ForeignKey(Post, verbose_name='Пост', on_delete=models.SET_NULL, null=True)
     created = models.DateTimeField('Дата добавления', auto_now_add=True)
     moderation = models.BooleanField('Разрешена модерация', default=True)
 
