@@ -33,7 +33,6 @@ class Tag(models.Model):
         verbose_name_plural = 'Теги'
 
 
-
 class Post(models.Model):
     '''Модель статей'''
     title = models.CharField('Заголовок', max_length=100)
@@ -44,7 +43,7 @@ class Post(models.Model):
     # времени и даты когда мы вносим запись в БД
     publish_date = models.DateTimeField('Дата публикации', default=timezone.now)  # 2 аргумент: автозаполнение даты
     # если мы не выьрали ничего
-    active = models.BooleanField('Опубликовка', default=True)  # Галочка да/нет
+    active = models.BooleanField('Публикация', default=True)  # Галочка да/нет
     sort = models.PositiveIntegerField('Сортировка статей', default=0, unique=True)  # Сортировка как в Битриксе,
     # только положительные чисоа
     view = models.PositiveIntegerField('Просмотрено', default=0)

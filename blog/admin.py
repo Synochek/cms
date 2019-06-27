@@ -12,3 +12,4 @@ class CategoryAdmin(MPTTModelAdmin):  # Вложенность категори�
 admin.site.register(Post)  # Регистрируем данную модель в админ. панели Django
 admin.site.register(Tag)
 admin.site.register(Category, CategoryAdmin)
+admin.site.register(Comment)
