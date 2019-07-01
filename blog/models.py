@@ -8,8 +8,8 @@ from mptt.models import MPTTModel, TreeForeignKey
 class Category(MPTTModel):
     '''Категории статей'''
     name = models.CharField('название', max_length=40)
+    active = models.BooleanField('Опубликовать', default=True)
     slug = models.SlugField('url', max_length=60)
-    publish = models.BooleanField('Опубликовать', default=True)
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
 
     def __str__(self):  # Что будет возвращаться при вызове экземпляра класса
@@ -59,6 +59,7 @@ class Post(models.Model):
     class Meta:  # Как будут именоваться в Джанго наши статьи
         verbose_name = 'Статья'
         verbose_name_plural = 'Статьи'
+        ordering = ['-created']  # Фильтр, который можно прописать в модели по умолчанию
 
 
 class Comment(models.Model):

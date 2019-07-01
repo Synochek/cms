@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!-- немножечко повыпендриваюсь стилями :) -->
+<style>
+     body {
+     color: #333333;
+     }
+     span {
+     border-bottom: 1px dashed #3498db;
+     margin-right: 10px;
+     }
+     .home {
+     text-decoration: none;
+     color: #333333;
+     padding: 10px;
+     border: 1px solid #999999;
+     border-radius: 3px;
+     }
+</style>
+
+<div>
+    <a class="home" href="{% url  'home_page' %}">На главную</a>
+</div>
+
+<h5>{{ post_full.category }}</h5>
+<h1>{{ post_full.title }}</h1>
+
+<h2>{{ post_full.sub_title }}</h2>
+<p>{{ post_full.text }}</p>
+<p>{{ post_full.view }}</p>
+
+{% for tag in post_full.tags.all %} <!-- "all" здесь из-за Many to Many -->
+<span>{{ tag.name }}</span>
+{% endfor %}
+
+</body>
+</html>
