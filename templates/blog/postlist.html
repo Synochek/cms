@@ -1,21 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block content %}
 
 <style>
     a {
     text-decoration: none;
     color: #333333
     }
-
 </style>
 
 {% for post in post_list %}
-<h2><a href="{% url 'post_detail' pk=post.id %}">{{ post.title }}</a></h2>
+<h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
 {% endfor %}
-</body>
-</html>
+
+{% endblock content %}

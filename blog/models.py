@@ -3,6 +3,7 @@ from django.db import models
 from django.utils import timezone
 
 from mptt.models import MPTTModel, TreeForeignKey
+from django.urls import reverse
 
 
 class Category(MPTTModel):
@@ -44,7 +45,7 @@ class Post(models.Model):
     publish_date = models.DateTimeField('Дата публикации', default=timezone.now)  # 2 аргумент: автозаполнение даты
     # если мы не выьрали ничего
     active = models.BooleanField('Публикация', default=True)  # Галочка да/нет
-    sort = models.PositiveIntegerField('Сортировка статей', default=0, unique=True)  # Сортировка как в Битриксе,
+    sort = models.PositiveIntegerField('Сортировка статей', default=500)  # Сортировка как в Битриксе,
     # только положительные чисоа
     view = models.PositiveIntegerField('Просмотрено', default=0)
     tags = models.ManyToManyField(Tag, verbose_name='Теги')
@@ -56,6 +57,9 @@ class Post(models.Model):
     def __str__(self):  # Что будет возвращаться при вызове экземпляра класса
         return self.title
 
+    def get_absolute_url(self):
+        return reverse('post_detail', kwargs={'category': self.category.slug, 'slug': self.slug})
+
     class Meta:  # Как будут именоваться в Джанго наши статьи
         verbose_name = 'Статья'
         verbose_name_plural = 'Статьи'
@@ -64,6 +68,7 @@ class Post(models.Model):
 
 class Comment(models.Model):
     '''Комментарии под статьей'''
+    author = models.TextField('автор', default='unknown user', max_length=20)
     text = models.TextField('текст комментария', max_length=800)
     post = models.ForeignKey(Post, verbose_name='Пост', on_delete=models.SET_NULL, null=True)
     created = models.DateTimeField('Дата добавления', auto_now_add=True)
