@@ -2,42 +2,65 @@
 
 {% block content %}
 
-<!-- немножечко повыпендриваюсь стилями :) -->
-<style>
-     body {
-     color: #333333;
-     }
-     span {
-     border-bottom: 1px solid #666666;
-     margin-right: 10px;
-     }
-</style>
+    {% if messages %}
 
-<hr>
+    {% for message in messages %}
+        <p style="color: red">{{ message }}</p>
+    {% endfor %}
 
-<h5>{{ post_full.category }}</h5>
-<h1>{{ post_full.title }}</h1>
-<h2>{{ post_full.sub_title }}</h2>
-<p>{{ post_full.text }}</p>
-<p>Кол-во просмотров: {{ post_full.view }}</p>
+    {% endif %}
 
- Теги:
-{% for tag in post_full.tags.all %} <!-- "all" здесь из-за Many to Many -->
-<span>{{ tag.name }}</span>
-{% endfor %}
+    <!-- немножечко повыпендриваюсь стилями :) -->
+    <style>
+         body {
+         color: #333333;
+         }
+         span {
+         border-bottom: 1px solid #666666;
+         margin-right: 10px;
+         }
+    </style>
 
-<p>Дата: {{ post_full.publish_date|date:'d M Y' }}</p>
+    <hr>
 
-<hr>
-<h2>Комментарии</h2>
-{% for comment in comments_topic %}
+    <h5>{{ post_full.category }}</h5>
+    <h1>{{ post_full.title }}</h1>
+    <h2>{{ post_full.sub_title }}</h2>
+    <p>{{ post_full.text }}</p>
+    <p>Кол-во просмотров: {{ post_full.view }}</p>
 
-<p>{{comment.author}}</p>
-<p>{{comment.text}}</p>
-<p>{{comment.created}}</p>
-<br>
-{% endfor %}
+     Теги:
+    {% for tag in post_full.tags.all %} <!-- "all" здесь из-за Many to Many -->
+    <span>{{ tag.name }}</span>
+    {% endfor %}
 
-<hr>
+    <p>Дата: {{ post_full.publish_date|date:'d M Y' }}</p>
+
+    {% if user.is_authenticated %}
+    <!--Если вошел - показать форму, иначе отобразить сообщение-->
+
+        <form action="" method="post">
+            {% csrf_token %}
+            <!--<textarea name="text" rows="4" cols="40"></textarea>-->
+            {{ form.as_p }}
+            <button type="submit">Отправить</button>
+        </form>
+
+    {% else %}
+
+    <h5>Чтобы оставить комментарий - войдите на сайт или зарегистрируйтесь</h5>
+
+    {% endif %}
+
+    <hr>
+    <h3>Комментарии</h3>
+    {% for comment in comments_topic %}
+    <p><b>{{comment.user}}</b></p>
+    <p>{{comment.text}}</p>
+    <p>{{comment.created}}</p>
+    <br>
+    {% endfor %}
+
+    <hr>
 
 {% endblock content %}

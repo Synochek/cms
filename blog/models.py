@@ -4,6 +4,7 @@ from django.utils import timezone
 
 from mptt.models import MPTTModel, TreeForeignKey
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 
 class Category(MPTTModel):
@@ -60,6 +61,7 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('post_detail', kwargs={'category': self.category.slug, 'slug': self.slug})
 
+
     class Meta:  # Как будут именоваться в Джанго наши статьи
         verbose_name = 'Статья'
         verbose_name_plural = 'Статьи'
@@ -68,7 +70,9 @@ class Post(models.Model):
 
 class Comment(models.Model):
     '''Комментарии под статьей'''
-    author = models.TextField('автор', default='unknown user', max_length=20)
+    user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.CASCADE)  # Выводит пользователей
+    # с помощью встроенной модели Джанго "User"
+    # Также после добавления этого не в самом начале нужно использовать костыльный метод с null=True
     text = models.TextField('текст комментария', max_length=800)
     post = models.ForeignKey(Post, verbose_name='Пост', on_delete=models.SET_NULL, null=True)
     created = models.DateTimeField('Дата добавления', auto_now_add=True)
@@ -80,3 +84,17 @@ class Comment(models.Model):
     class Meta:  # Как будут именоваться в Джанго наши статьи
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'
+
+
+class Feedback(models.Model):
+    '''Форма обратной связи'''
+    author = models.TextField('Имя', max_length=30)  # Автор письма
+    text = models.TextField('Текст комментария', max_length=800)
+    created = models.DateTimeField('Дата добавления', auto_now_add=True)
+
+    def __str__(self):  # Что будет возвращаться при вызове экземпляра класса
+        return self.text
+
+    class Meta:  # Как будут именоваться в Джанго наши статьи
+        verbose_name = 'Письмо'
+        verbose_name_plural = 'Письма'

@@ -5,4 +5,13 @@
     <li>
         <a href="#">About us</a>
     </li>
+    {% if user.is_authenticated %}
+    <li>
+        <a href="/accounts/logout/">Выйти</a>
+    </li>
+    {% else %}
+    <li>
+        <a href="/accounts/login/">Войти</a>
+    </li>
+    {% endif %}
 </ul>

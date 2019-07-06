@@ -56,7 +56,7 @@ class TagAdmin(admin.ModelAdmin):  # Параметры админки для т
 
 
 class TagComment(admin.ModelAdmin):  # Параметры админки для комментариев
-    list_display = ('id', 'author', 'post', 'moderation', 'created')
+    list_display = ('id', 'user', 'post', 'moderation', 'created')
     list_display_links = ('post',)
     list_editable = ('moderation',)
     list_filter = ('text',)

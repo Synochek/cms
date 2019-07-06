@@ -1,7 +1,11 @@
+from django.conf import settings
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404
 from django.views import View
+from django.shortcuts import redirect
 from .models import Post, Comment, Category
+from .forms.forms import CommentForm
+from django.contrib import messages
 
 
 class PostList(View):  # Выводит найденные посты в списке
@@ -25,6 +29,27 @@ class PostCategory(View):
 class PostFull(View):
     def get(self, request, category, slug):
         models = Post.objects.get(slug=slug)
-        comments = Comment.objects.filter(post=models)
-        print(comments)
-        return render(request, 'blog/postfull.html', {'post_full': models, 'comments_topic': comments})
+        comments = Comment.objects.filter(post=models, moderation=True)
+        form = CommentForm()
+        print('наш GET: ' + str(form))
+        return render(request, 'blog/postfull.html', {'post_full': models, 'comments_topic': comments, 'form': form})
+
+    def post(self, request, category, slug):  # Заполняется форма из HTML <form>, 'text' - это name формы в html
+
+        print('Автор: ' + str(request.POST.get('user')))
+        print('Комментарий: ' + str(request.POST.get('text')))
+        print('Данные Пост: ' + str(request.POST))
+
+        form = CommentForm(request.POST)
+        if form.is_valid():  # Проверка на валидность формы (наличие символов)
+            form = form.save(commit=False)  # без этого действия пост не привязывается к определенному посту
+            form.post = Post.objects.get(slug=slug)
+            form.user = request.user
+            form.save()  # Сохраняет запись с полями в БД (т.к. она была получена из моделей, сохраняются нужные поля)
+            # Comment.objects.create(author=request.POST.get('author'), text=request.POST.get('text'), post=Post.objects.get(slug=slug))
+            # Это то, что происходит вместо закомментарованного кода, который реализуется без forms
+            messages.add_message(request, settings.MY_INFO, 'Ваш комментарий вскоре будет проверен модератором')
+        else:
+            messages.add_message(request, settings.MY_INFO, 'Ошибка')
+        return redirect(request.path)
+            # Или redirect(request.path) - просто перенаправить на эту же страницу

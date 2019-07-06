@@ -5,13 +5,13 @@
     <title>Document</title>
 </head>
 <body>
-{% include 'include/header.html' %}  <!-- подтягивается меню -->
+{% include 'include/header/header.html' %}  <!-- подтягивается меню -->
 
-{% block content %}  <!-- Сюда отправляется весь контент наших страниц -->
+{% block content %}  <!-- Сюда отправляется весь контент наших страниц. Обязательный элемент, т.к. с ним работает allauth-->
 
 {% endblock content %}
 
-{% include 'include/footer.html' %}  <!-- Подтягивается футер -->
+{% include 'include/footer/footer.html' %}  <!-- Подтягивается футер -->
 
 </body>
 </html>
