@@ -3,3 +3,13 @@
 {% block content %}
 
 <h1>feedback page</h1>
+
+<form action="" method="post">
+    {% csrf_token %}
+    <!--<textarea name="text" rows="4" cols="40"></textarea>-->
+    {{ forms_list.as_p }}
+    <!--Сюда передалась наша форма из view.py через Рендер. .as_p помещает каждую форму в <p> -->
+    <button type="submit">Отправить</button>
+</form>
+
+{% endblock content %}

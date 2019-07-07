@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Post, Tag, Category, Comment
+from .models import Post, Tag, Category, Comment, Feedback
 
 from mptt.admin import MPTTModelAdmin
 
@@ -63,7 +63,14 @@ class TagComment(admin.ModelAdmin):  # Параметры админки для 
     search_fields = ('name',)
 
 
+class FeedbackAdmin(admin.ModelAdmin):  # Параметры админки для формы фидбек
+    list_display = ('name', 'email', 'created')
+    list_filter = ('email',)
+    search_fields = ('text',)
+
+
 admin.site.register(Post, PostAdmin)  # Регистрируем данную модель в админ. панели Django
 admin.site.register(Tag, TagAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Comment, TagComment)
+admin.site.register(Feedback, FeedbackAdmin)

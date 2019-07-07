@@ -61,7 +61,6 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('post_detail', kwargs={'category': self.category.slug, 'slug': self.slug})
 
-
     class Meta:  # Как будут именоваться в Джанго наши статьи
         verbose_name = 'Статья'
         verbose_name_plural = 'Статьи'
@@ -88,8 +87,10 @@ class Comment(models.Model):
 
 class Feedback(models.Model):
     '''Форма обратной связи'''
-    author = models.TextField('Имя', max_length=30)  # Автор письма
-    text = models.TextField('Текст комментария', max_length=800)
+    name = models.CharField('Имя', max_length=30)  # Автор письма
+    email = models.EmailField('Почта', max_length=30, null=True)  # Убрал EmailField для надежности
+    phone = models.CharField('Телефон', max_length=14, blank=True)
+    text = models.TextField('Текст формы', max_length=800)
     created = models.DateTimeField('Дата добавления', auto_now_add=True)
 
     def __str__(self):  # Что будет возвращаться при вызове экземпляра класса

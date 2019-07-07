@@ -5,6 +5,10 @@
     <li>
         <a href="#">About us</a>
     </li>
+    <li>
+        <a href="{% url  'feedback_page' %}">Feedback</a>
+    </li>
+
     {% if user.is_authenticated %}
     <li>
         <a href="/accounts/logout/">Выйти</a>

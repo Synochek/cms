@@ -3,8 +3,8 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404
 from django.views import View
 from django.shortcuts import redirect
-from .models import Post, Comment, Category
-from .forms.forms import CommentForm
+from .models import Post, Comment, Category, Feedback
+from .forms.forms import CommentForm, FeedbackForm
 from django.contrib import messages
 
 
@@ -31,14 +31,14 @@ class PostFull(View):
         models = Post.objects.get(slug=slug)
         comments = Comment.objects.filter(post=models, moderation=True)
         form = CommentForm()
-        print('наш GET: ' + str(form))
+        # print('наш GET: ' + str(form))
         return render(request, 'blog/postfull.html', {'post_full': models, 'comments_topic': comments, 'form': form})
 
     def post(self, request, category, slug):  # Заполняется форма из HTML <form>, 'text' - это name формы в html
 
-        print('Автор: ' + str(request.POST.get('user')))
-        print('Комментарий: ' + str(request.POST.get('text')))
-        print('Данные Пост: ' + str(request.POST))
+        # print('Автор: ' + str(request.POST.get('user')))
+        # print('Комментарий: ' + str(request.POST.get('text')))
+        # print('Данные Пост: ' + str(request.POST))
 
         form = CommentForm(request.POST)
         if form.is_valid():  # Проверка на валидность формы (наличие символов)
@@ -52,4 +52,28 @@ class PostFull(View):
         else:
             messages.add_message(request, settings.MY_INFO, 'Ошибка')
         return redirect(request.path)
-            # Или redirect(request.path) - просто перенаправить на эту же страницу
+# Или redirect(request.path) - просто перенаправить на эту же страницу
+
+
+class FeedbackPage(View):
+    def get(self, request):
+        forms = FeedbackForm()
+        print('наш GET: ' + str(forms))
+        return render(request, 'blog/inner_pages/feedback.html', {'forms_list': forms})  # Передаем объект формы
+
+    def post(self, request):
+        print('Данные Пост: ' + str(request.POST))
+    #
+        Feedback.objects.create(
+            name=request.POST.get('name'),
+            email=request.POST.get('email'),
+            phone=request.POST.get('phone'),
+            text=request.POST.get('text')
+        )
+
+        form = FeedbackForm(request.POST)
+        if form.is_valid():
+            return redirect(request.path)
+            #form = form.save()
+        else:
+            return HttpResponse('Форма не была отправлена. Ошибка')  # Выводит сообщение что не найдено
