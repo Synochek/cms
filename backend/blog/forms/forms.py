@@ -15,4 +15,5 @@ class FeedbackForm(forms.ModelForm):
     '''Форма обратной связи'''
     class Meta:
         model = Feedback
-        fields = ('name', 'email', 'phone', 'text')
+        fields = '__all__'
+        exclude = ('created',)

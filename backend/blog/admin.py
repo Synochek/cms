@@ -67,6 +67,7 @@ class FeedbackAdmin(admin.ModelAdmin):  # Параметры админки дл
     list_display = ('name', 'email', 'created')
     list_filter = ('email',)
     search_fields = ('text',)
+    readonly_fields = ('name', 'email', 'created', 'text', 'phone')
 
 
 admin.site.register(Post, PostAdmin)  # Регистрируем данную модель в админ. панели Django
