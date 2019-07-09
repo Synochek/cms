@@ -2,6 +2,20 @@
 
 {% block content %}
 
+<!--{% if messages %}-->
+<!--<ul class="messages">-->
+    <!--{% for message in messages %}-->
+    <!--<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>-->
+    <!--{% endfor %}-->
+<!--</ul>-->
+<!--{% endif %}-->
+
+    {% if messages %}
+    {% for mess in messages %}
+        <p style="color: red">{{ mess }}</p>
+    {% endfor %}
+    {% endif %}
+
 <h1>feedback page</h1>
 
 <form action="" method="post">

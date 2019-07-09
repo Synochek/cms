@@ -40,12 +40,14 @@ class PostFull(View):
         # print('Комментарий: ' + str(request.POST.get('text')))
         # print('Данные Пост: ' + str(request.POST))
 
-        form = CommentForm(request.POST)
+        form = CommentForm(request.POST)  # теперь формы содержит все поля нашей модели, на которую ссылается этот класс
+        # из форм.
         if form.is_valid():  # Проверка на валидность формы (наличие символов)
-            form = form.save(commit=False)  # без этого действия пост не привязывается к определенному посту
+            form = form.save(commit=False)  # Форму сейчас не нужно сохранять. Мы хотим поработать с данными. Без этого
+            # поля у формы не будет привязки к посту
             form.post = Post.objects.get(slug=slug)
             form.user = request.user
-            form.save()  # Сохраняет запись с полями в БД (т.к. она была получена из моделей, сохраняются нужные поля)
+            form.save()  # Сохраняет запись с полями в БД данные, положенные в форму. Они основаны на модели
             # Comment.objects.create(author=request.POST.get('author'), text=request.POST.get('text'), post=Post.objects.get(slug=slug))
             # Это то, что происходит вместо закомментарованного кода, который реализуется без forms
             messages.add_message(request, settings.MY_INFO, 'Ваш комментарий вскоре будет проверен модератором')
@@ -63,17 +65,21 @@ class FeedbackPage(View):
 
     def post(self, request):
         print('Данные Пост: ' + str(request.POST))
-    #
-        Feedback.objects.create(
-            name=request.POST.get('name'),
-            email=request.POST.get('email'),
-            phone=request.POST.get('phone'),
-            text=request.POST.get('text')
-        )
+
+        # Feedback.objects.create(  # Создание формы первым способом, без forms
+        #     name=request.POST.get('name'),
+        #     email=request.POST.get('email'),
+        #     phone=request.POST.get('phone'),
+        #     text=request.POST.get('text')
+        # )
 
         form = FeedbackForm(request.POST)
         if form.is_valid():
-            return redirect(request.path)
-            #form = form.save()
+            form = form.save(commit=False)  # Форму сейчас не нужно сохранять. Мы хотим поработать с данными. Без этого
+            # поля у формы не будет привязки к посту
+            form.save()  # Создание формы первым способом
+            messages.add_message(request, settings.FEEDBACK_FORM, 'Ваша форма успешно отправлегна')  # форма на основе
+            # формы Миши
         else:
-            return HttpResponse('Форма не была отправлена. Ошибка')  # Выводит сообщение что не найдено
+            messages.add_message(request, settings.FEEDBACK_FORM, 'Ошибка')
+        return redirect(request.path)
