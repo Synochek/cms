@@ -40,8 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     'mptt',
-    'backend.feedback'
     'backend.blog',
+    'backend.feedback',
     'allauth',
     'allauth.account',
 ]

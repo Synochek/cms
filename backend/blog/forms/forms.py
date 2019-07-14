@@ -1,6 +1,6 @@
 from django import forms
 
-from ..models import Comment, Feedback
+from ..models import Comment
 
 
 class CommentForm(forms.ModelForm):
@@ -9,11 +9,3 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ('text',)  # все поля - __all__
         # exclude = .. позволяет исключать ненужные поля
-
-
-class FeedbackForm(forms.ModelForm):
-    '''Форма обратной связи'''
-    class Meta:
-        model = Feedback
-        fields = '__all__'
-        exclude = ('created',)

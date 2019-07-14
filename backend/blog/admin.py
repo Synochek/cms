@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Post, Tag, Category, Comment, Feedback
+from .models import Post, Tag, Category, Comment
 
 from mptt.admin import MPTTModelAdmin
 
@@ -74,4 +74,3 @@ admin.site.register(Post, PostAdmin)  # Регистрируем данную м
 admin.site.register(Tag, TagAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Comment, TagComment)
-admin.site.register(Feedback, FeedbackAdmin)
