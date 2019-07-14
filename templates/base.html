@@ -1,17 +1,31 @@
 <!doctype html>
+{% load staticfiles %}  <!-- Папка static подгружается автоматически. Эта возможность из джанго -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">  <!-- Этот тег дает нам возможность указывать
+    наш css файл посредством относительного пути. Пока я его отключил, т.к. он не работает -->
     <title>Document</title>
 </head>
 <body>
-{% include 'include/header/header.html' %}  <!-- подтягивается меню -->
+<!-- {#% include 'include/header/header.html' %#} -->  <!-- подтягивается меню. ПОКА ОТКЛЮЧИЛ -->
 
 {% block content %}  <!-- Сюда отправляется весь контент наших страниц. Обязательный элемент, т.к. с ним работает allauth-->
+<div class="main-blog" style="
+    display: grid;
+    grid-template-columns: 20% 75%;"> <!-- Стили для верстки подключаются сюда -->
+    <div class="sidebar">
+        {% block sidebar %}
+            {% include 'blog/sidebar.html' %}
+            {% include 'include/footer/footer.html' %}  <!-- Подтягивается футер -->
+        {% endblock sidebar %}
+    </div>
 
+    <div class="content">
+        {% block posts %}
+        {% endblock posts %}
+    </div>
+</div>
 {% endblock content %}
-
-{% include 'include/footer/footer.html' %}  <!-- Подтягивается футер -->
-
 </body>
 </html>

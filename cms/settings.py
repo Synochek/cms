@@ -146,6 +146,8 @@ SITE_ID = 1
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_DIR = os.path.join(BASE_DIR, 'static')  # Указывается, в кокой папке директории нашего проекта есть статик
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # Таким образом я сделал базовый путь к этой папке
 
 
 MY_INFO = 80

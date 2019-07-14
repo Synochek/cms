@@ -44,11 +44,13 @@ class PostFull(View):
         # из форм.
         if form.is_valid():  # Проверка на валидность формы (наличие символов)
             form = form.save(commit=False)  # Форму сейчас не нужно сохранять. Мы хотим поработать с данными. Без этого
-            # поля у формы не будет привязки к посту
+            # поля у формы не будет привязки к посту. Эта операция позволяет добавлять в наш form, который основывается
+            # а моделях новые значения и информацию
             form.post = Post.objects.get(slug=slug)
             form.user = request.user
             form.save()  # Сохраняет запись с полями в БД данные, положенные в форму. Они основаны на модели
-            # Comment.objects.create(author=request.POST.get('author'), text=request.POST.get('text'), post=Post.objects.get(slug=slug))
+            # Comment.objects.create(author=request.POST.get('author'), text=request.POST.get('text'),
+            # post=Post.objects.get(slug=slug))
             # Это то, что происходит вместо закомментарованного кода, который реализуется без forms
             messages.add_message(request, settings.MY_INFO, 'Ваш комментарий вскоре будет проверен модератором')
         else:

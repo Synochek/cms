@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% if user.is_authenticated %}  <!-- Если авторизован. Также передается контекст из файла теспл. тегов -->
+<ul>
+{% for category in category_list %}  <!-- Обращается к функции, которая в наших тегах blog_tags.
+Там этот темплейт и подключается -->
+<li><a href=" {{ category.slug }} "> {{ category.name }} </a></li>
+{% endfor %}
+</ul>
+{% endif %}

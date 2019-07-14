@@ -1,25 +1,13 @@
 {% extends 'base.html' %}
 
-{% block content %}
+{% load blog_tags %}  <!-- Загружается файл темлпейт тегов block_tags. Используется ниже для паддингов комментов -->
 
+{% block posts %}
     {% if messages %}
-
     {% for message in messages %}
         <p style="color: red">{{ message }}</p>
     {% endfor %}
-
     {% endif %}
-
-    <!-- немножечко повыпендриваюсь стилями :) -->
-    <style>
-         body {
-         color: #333333;
-         }
-         span {
-         border-bottom: 1px solid #666666;
-         margin-right: 10px;
-         }
-    </style>
 
     <hr>
 
@@ -55,12 +43,19 @@
     <hr>
     <h3>Комментарии</h3>
     {% for comment in comments_topic %}
-    <p><b>{{comment.user}}</b></p>
-    <p>{{comment.text}}</p>
-    <p>{{comment.created}}</p>
+        {% if forloop.counter|comment_padding %}  <!-- Задает встроенный фильтр forloop со значением, которое мы
+        принимаем из blog_tags -->
+            <p style="padding-left: 20px;">
+        {% else %}
+            <p>
+        {% endif %}
+
+    <b>{{ comment.user }}</b><br>
+    {{ comment.text }}<br>
+    {{ comment.created }}<br>
+            </p>
     <br>
     {% endfor %}
-
     <hr>
 
-{% endblock content %}
+{% endblock posts %}

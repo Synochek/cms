@@ -1,0 +1,5 @@
+.main-block {
+    display: grid;
+    grid-template-columns: 15% 80%;
+    background-color: #999999;
+}

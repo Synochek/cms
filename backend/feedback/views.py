@@ -12,7 +12,7 @@ class FeedbackPage(View):
     def get(self, request):
         forms = FeedbackForm()
         print('наш GET: ' + str(forms))
-        return render(request, 'templates/blog/inner_pages/feedback.html', {'forms_list': forms})  # Передаем объект формы
+        return render(request, 'feedback/feedback.html', {'forms_list': forms})  # Передаем объект формы
 
     def post(self, request):
         print('Данные Пост: ' + str(request.POST))

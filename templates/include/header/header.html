@@ -1,2 +1,3 @@
-{% include 'include/menu.html' %}
-{% include 'include/header/categories.html' %}
+{#% include 'include/menu.html' %#}
+{#% load blog_tags %#} <!-- В шкблон загружается файл с темплейт тегами blog_tags.py  -->
+{#% category_list publish='True' %#} <!-- Включается функция из block_tags с передачей условия для публикации -->
