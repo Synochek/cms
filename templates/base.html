@@ -1,27 +1,27 @@
 <!doctype html>
-{% load staticfiles %}  <!-- Папка static подгружается автоматически. Эта возможность из джанго -->
+{% load static from staticfiles %}  <!-- Папка static подгружается автоматически. Эта возможность из джанго -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">  <!-- Этот тег дает нам возможность указывать
-    наш css файл посредством относительного пути. Пока я его отключил, т.к. он не работает -->
+    <link rel="stylesheet" href="{% static 'style.css' %}" type="text/css">
+    <!-- Дает нам возможность указывать наш css файл через относительный путь. Пока он не работает -->
     <title>Document</title>
 </head>
 <body>
-<!-- {#% include 'include/header/header.html' %#} -->  <!-- подтягивается меню. ПОКА ОТКЛЮЧИЛ -->
 
-{% block content %}  <!-- Сюда отправляется весь контент наших страниц. Обязательный элемент, т.к. с ним работает allauth-->
-<div class="main-blog" style="
-    display: grid;
-    grid-template-columns: 20% 75%;"> <!-- Стили для верстки подключаются сюда -->
+{% block content %}  <!-- Сюда отправляется весь контент наших страниц. Обязательный элемент, с ним работает allauth-->
+
+<div class="main-blog"> <!-- Стили для верстки подключаются сюда -->
+
+
     <div class="sidebar">
         {% block sidebar %}
-            {% include 'blog/sidebar.html' %}
-            {% include 'include/footer/footer.html' %}  <!-- Подтягивается футер -->
+            {% include 'include/sidebar/full_sidebar.html' %}
+            {% include 'include/footer_header/footer.html' %}  <!-- Подтягивается футер -->
         {% endblock sidebar %}
     </div>
 
-    <div class="content">
+    <div class="content">  <!-- Сюда экстендится код -->
         {% block posts %}
         {% endblock posts %}
     </div>

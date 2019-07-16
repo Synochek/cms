@@ -15,7 +15,7 @@ def category_list(context, publish=True):  # В функцию передали 
 
 
 @register.filter()
-def comment_padding(value):  # Делает на каждом четном комментарии отступ
+def comment_padding(value):
     # Фильтр сдвига комментария
     return int(value / 2) == float(value / 2)  # Операция, вычиляющая: четное или нечетное число
     # комментария в данный момент

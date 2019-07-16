@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'mptt',
     'backend.blog',
     'backend.feedback',
+    'backend.menu',
+    'backend.pages',
     'allauth',
     'allauth.account',
 ]

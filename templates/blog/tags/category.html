@@ -1,8 +1,9 @@
-{% if user.is_authenticated %}  <!-- Если авторизован. Также передается контекст из файла теспл. тегов -->
+{% if user.is_authenticated %}  <!-- Если авторизован. Также передается контекст из файла темпл. тегов (blog_tags) -->
 <ul>
 {% for category in category_list %}  <!-- Обращается к функции, которая в наших тегах blog_tags.
 Там этот темплейт и подключается -->
-<li><a href=" {{ category.slug }} "> {{ category.name }} </a></li>
+<li><a href=" {% url 'category_page' category=category.slug %} "> {{ category.name }} </a></li>
+    <!-- из urls передается '<slug:category>/' -->
 {% endfor %}
 </ul>
 {% endif %}
